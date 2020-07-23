@@ -1,0 +1,325 @@
+Input file format for <program name>:
+
+===========================================================
+== (0) Notes                                             ==
+===========================================================
+
+In this document, all multi-line input examples are
+delineated with two '@'s. For example...
+
+@@
+Level Name 1
+Level Name 2
+@@
+
+Output examples are delineated with two '*'s :
+
+**
+Now Entering
+The Store
+**
+
+If the output contains both a level entry
+and a level name, they will be separated by
+two '&'s.
+
+**
+Now Entering
+Level One
+&&
+Level One
+**
+
+
+===========================================================
+== (1) Basic Format                                      ==
+===========================================================
+
+----------------------------------------
+-- 1.1 Format Variables               --
+----------------------------------------
+
+The text file starts with one line, which gives the
+format information. Currently, it works like this:
+
+@@
+valx x valy y
+@@
+
+Where 'valx' and 'valy' are variables/flags and
+x and y are the values for their respective variables.
+
+Currently, there are only three variables:
+
+'episode'
+(or '--episode', '--ep', 'ep', or 'e')
+Specifies which episode these level names/entries are
+for. Currently, only 4 and 6 are supported.
+
+'virtual'
+(or '--virtual', '--virt', 'virt', '-v', or 'v')
+Specifies the level at and above which all entries
+are "virtual"; that is, these levels will have
+their text patched into the executible segments,
+but they will not have a name/entry pointer
+created. This is only useful when combined with
+using "reference entries", see <section> for more
+info.
+
+'starwars'
+(or '--starwars', '--sw', or 'sw')
+This uses the text space used by the
+"Star Wars" style story text for level
+names.
+Note that at the moment, you'll have to
+handle the star wars text yourself; either
+patch the star wars story out altogether,
+or make it short enough to fit in the reduced
+amount of space.
+Alternatively, you could make the star wars
+story itself one of your entries (the best
+option would be to use your last non-virtual
+entry) and then use the offset of the last
+level/entry patch for the star wars story.
+
+----------------------------------------
+-- 1.2 Text Stuff                     --
+----------------------------------------
+
+Comments begin with a '#'. If a line begins with
+a '#' (or just whitespace followed by a '#'),
+it will not be treated as an entry. So, for example...
+
+@@
+Level Name 1 # this will be a line
+# This won't
+             # Neither will this.
+@@
+
+Newlines in text entries are denoted by
+'\n', as is standard.
+
+e.g.
+@@
+before\nafter
+@@
+
+becomes
+
+**
+before
+after
+**
+
+Also note that all trailing whitespace
+will be stripped, so the following are
+all equivalent:
+
+@@
+Level xyz
+Level xyz                # comment
+Level xyz# another comment
+@@
+
+----------------------------------------
+-- 1.3 Formatting Characters          --
+----------------------------------------
+
+The following characters are escaped
+characters that will be replaced when
+used:
+
+"\\" --> "\" (backslash)
+"\|" --> "|" (pipe)
+"\s" --> " " (space) *
+"\h" --> "#" (hash)
+"\n" --> (newline)
+"\t" --> (tab) *
+"\q" --> """ (quotation mark) **
+"\"" --> """ (quotation mark) **
+"\d" --> "$" (dollar sign) **
+"\w" --> "~" (tilde) **
+
+* Unlike other spaces/tabs, these
+are NOT skipped at the beginning/
+ends of strings; use these when,
+for whatever reason, you want
+leading/trailing spaces.
+
+** These characters can also be
+entered directly; these are just
+here if you prefer using these
+for whatever reason.
+
+
+----------------------------------------
+-- 1.4 Actual Entries                 --
+----------------------------------------
+
+-----------------------------------
+-- 1.4.1 Full Entries            --
+-----------------------------------
+
+This is the same type of entry as used in the 
+Keen series. It is quite simple; on one line,
+write the level entry text first, then two
+'|' characters, then the level name.
+
+Examples:
+
+@@
+Keen is in the\nHigh Score Screen.\nCall ID!||High Scores
+@@
+
+**
+Keen is in the
+High Score Screen.
+Call ID!
+&&
+High Scores
+**
+
+-----------------------------------
+-- 1.4.2 Simple Entries          --
+-----------------------------------
+
+These are entries where the level name
+and the level entry text are the same.
+To make one of these, just use a string
+with no '|'s in it.
+
+@@
+Level xyz
+@@
+
+**
+Level xyz
+&&
+Level xyz
+**
+
+-----------------------------------
+-- 1.4.2 Short Entries           --
+-----------------------------------
+
+These are entries where the level name
+comes at the end of the entry text, which
+can save room by setting the name pointer
+to be in the middle of the level entry
+string. To make them, just write a level
+entry string with a '|' inserted right before
+the start of the level name.
+
+For example...
+
+@@
+Keen purposefully struts\ninto the |Bloogbase\nManagement District
+@@
+
+would translate to the level entry text:
+
+**
+Keen purposefully struts
+into the Bloogbase
+Management District
+&&
+Bloogbase
+Management District
+**
+
+Use short entries as much as possible, as they
+are the main way to optimise text space usage.
+
+-----------------------------------
+-- 1.4.3 Reference Entries       --
+-----------------------------------
+
+These are for entries that use one
+of the already written entries.
+
+To use one, start the entry with an
+'*', followed by two values: one
+referring to the entry value for this
+level, and one referring to the level
+name value for this level. Level
+numbers start at 0 for the first entry,
+and continue from there. 
+To reference another level's level entry,
+use 'e' followed by the level's number
+(no space); to reference another level's
+name, use 'n' followed by the level's number
+(again, no spaces).
+
+For Example...
+
+@@
+--episode 6 --virtual 22
+Returning to\nWorld Map                #  0
+Now Entering\n|Level One               #  1
+Now Entering\n|Level Two               #  2
+Now Entering\n|Level Three             #  3
+# ...                                  # --
+Now Entering\nan |Unknown Area         # 15
+* e15 n15                              # 16
+* n16 n15                              # 17
+# Domes of Darkness                    # --
+* e21 n22                              # 18
+* e21 n23                              # 19
+* e21 n24                              # 20
+# Start of virtual stuff               # --
+Now Entering\na Dome of Darkness       # 21
+Dome of Darkness \h1                   # 22
+Dome of Darkness \h2                   # 23
+Dome of Darkness \h3                   # 24
+@@
+
+Results:
+
+Levels 15 & 16:
+
+**
+Now entering
+an Unknown Area
+&&
+Unknown Area
+**
+
+Level 17
+
+**
+Unknown Area
+&&
+Unknown Area
+**
+
+Level 18
+
+**
+Now Entering
+a Dome of Darkness
+&&
+Dome of Darkness #1
+**
+
+Level 19
+
+**
+Now Entering
+a Dome of Darkness
+&&
+Dome of Darkness #2
+**
+
+Level 20
+
+**
+Now Entering
+a Dome of Darkness
+&&
+Dome of Darkness #3
+**
+
+
+
+
+
