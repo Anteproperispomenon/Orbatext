@@ -38,6 +38,8 @@ int get_box(int min_length, std::vector<TextBox> & boxes) {
 	
 	int len = 0;
 	
+	// Get the box with the lowest amount of space remaining that is still
+	// greater than the minimum
 	for (int i = 0; i < lng; i++) {
 		len = boxes.at(i).get_remaining();
 		if (/*(current_min == -1) || */ (len >= min_length && (current_min == -1 || len < current_min))) {
@@ -50,35 +52,6 @@ int get_box(int min_length, std::vector<TextBox> & boxes) {
 	return current_ind;
 }
 
-/*
-TextBox & get_box_alt(int min_length, std::vector<TextBox> & entries) {
-	unsigned int current_min = 0xFFFFFF;
-	// int current_ind = -1;
-	
-	//int len = entries.length();
-
-	std::vector<TextBox>::iterator i = entries.begin();
-	std::vector<TextBox>::iterator j = entries.begin();
-	
-	int len = 0;
-	bool found = false;
-	
-	for (i ; i != entries.end(); ++i) {
-		len = i->get_remaining();
-		if (len >= min_length && len < current_min) {
-			j = i;
-			current_min = len;
-			found = true;
-		}
-	}
-	
-	if (!found) {
-		throw std::runtime_error("Could not find large enough text box.");
-	}
-	return (*j);
-}
-
-*/
 
 // Returns -1 if all entries have "length" 0.
 int get_longest_entry(std::vector<TextEntry> &vec) {

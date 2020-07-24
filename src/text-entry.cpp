@@ -47,7 +47,7 @@ TextEntry::~TextEntry() {
 int TextEntry::get_longest() const {
 	if (done1 && done2) {
 		return 0;
-	} 
+	}
 	else if (ent == RefE) {
 		return 0;
 	}
@@ -254,6 +254,9 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 		cyc_insert(cyc, i);
 		
 		// "Outcome" value
+		// outc =  0 ==> Not yet reached the end or loop.
+		// outc =  1 ==> The path ends in actual text.
+		// outc = -1 ==> The path ends in a loop.
 		int outc = 0;
 		int off1 = ent.ref1;
 		// this works in both (i think) nope
@@ -263,11 +266,15 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 		std::vector<int>::iterator it = cyc.end();
 		#endif
 		while (outc == 0) {
+			// "rent" is the entry that the current entry points to.
 			TextEntry & rent = entries.at(off1 % len);
 			if (rent.get_type() != RefE) {
+				// Here, the end of the link/'cycle'/path has been found.
 				outc = 1;
 				break;
 			}
+			// Check and see if that node/reference has already been reached.
+			// If it hasn't, the iterator is cyc.end().
 			#ifdef USE_SET
 			it = cyc.find(off1);
 			#else
@@ -282,6 +289,7 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 				#ifdef __DEBUG_OUTPUT__
 				int offx = off1;
 				#endif
+				// 
 				if (off1 > len) off1 = rent.ref2;
 				else            off1 = rent.ref1;
 				#ifdef __DEBUG_OUTPUT__
@@ -296,6 +304,9 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 			#ifdef __DEBUG_OUTPUT__
 			std::cout << "In the cycle redirect loop A for entry #" << i << "." << std::endl;
 			#endif
+			// Declaring the iterator for the for-loop ahead of time.
+			// This is necessary, since the type of the iterator
+			// is dependent on whether USE_SET is on.
 			#ifdef USE_SET
 			std::set<int>::iterator st = cyc.begin();
 			#else
@@ -327,10 +338,12 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 			throw std::runtime_error(oss.str());
 			#endif
 		}
-
+		
 		// for the second reference		
 		cyc.clear(); // = cycs.at(i);
 		
+		// This is basically the same thing, but 
+		// with the second reference.
 		//cyc.insert(len + i);
 		cyc_insert(cyc,len+i);
 		outc = 0;
