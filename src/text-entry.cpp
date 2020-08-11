@@ -37,13 +37,15 @@ TextEntry::TextEntry(std::string str1, int x           ):ent(ShortE ),str1(str1)
 
 TextEntry::TextEntry(std::string str1, std::string str2):ent(FullE  ),str1(str1),str2(str2),offs(0),done1(false),done2(false){}
 
-// tEntry::TextEntry(int ref1          ):ent(RefE),ref1(ref1),ref2(ref1),offs(0),done1(false),done2(false) {} // wow, this is bad...
-TextEntry::TextEntry(int ref1, int ref2):ent(RefE),offs(0),ref1(ref1),ref2(ref2),done1(false),done2(false) {} // wow, this is bad...
+// tEntry::TextEntry(int ref1          ):ent(RefE),ref1(ref1),ref2(ref1),offs(0),done1(false),done2(false) {}
+TextEntry::TextEntry(int ref1, int ref2):ent(RefE),offs(0),ref1(ref1),ref2(ref2),done1(false),done2(false) {} // This is kinda awkward
 
 TextEntry::~TextEntry() {
 	// put stuff here.
 }
 
+// Return the length of the longer of
+// the not-yet-placed strings.
 int TextEntry::get_longest() const {
 	if (done1 && done2) {
 		return 0;
@@ -125,7 +127,8 @@ bool TextEntry::add_to_box (TextBox &box) {
 	return false; // I dunno...
 }
 
-// get blah
+// Functions to return private
+// variables.
 unsigned long TextEntry::get_seg1() const {
 	return seg1;
 }
@@ -152,7 +155,8 @@ int TextEntry::get_ref2() const {
 	return (-1);
 }
 
-
+// Assign the [final] pointer for the reference entries,
+// provided the pointed-to entries have been completed.
 bool TextEntry::assign_ref(int len, TextEntry & tnt1, TextEntry & tnt2) {
 	if (ent != RefE)             return false;
 	if (tnt1.all_done() != true) return false;
@@ -182,6 +186,7 @@ bool TextEntry::assign_ref(int len, TextEntry & tnt1, TextEntry & tnt2) {
 	return true;
 }
 
+// Return
 std::string TextEntry::get_long_string() const {
 	if (ent == SimpleE) {
 		return str1;
@@ -206,9 +211,9 @@ std::string TextEntry::get_long_string() const {
 		}
 	}
 	else if (ent == RefE) {
-		return ("<reference entry>");
+		return ("<reference entry>"); // This probably won't happen.
 	}
-	return ("error"); // I dunno...
+	return ("error"); // Might want to do this differently...
 }	
 
 // Helper Function
@@ -254,7 +259,7 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 		cyc_insert(cyc, i);
 		
 		// "Outcome" value
-		// outc =  0 ==> Not yet reached the end or loop.
+		// outc =  0 ==> Haven't yet determined whether it ends in text or a loop.
 		// outc =  1 ==> The path ends in actual text.
 		// outc = -1 ==> The path ends in a loop.
 		int outc = 0;
@@ -284,12 +289,12 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 				outc = -1;
 			}
 			else {
-				//cyc.insert(off1);
+				// Insert the latest reference node into the reference list/set
 				cyc_insert(cyc,off1);
 				#ifdef __DEBUG_OUTPUT__
 				int offx = off1;
 				#endif
-				// 
+				// Update the reference point by looking at the next node.
 				if (off1 > len) off1 = rent.ref2;
 				else            off1 = rent.ref1;
 				#ifdef __DEBUG_OUTPUT__
@@ -300,6 +305,9 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 			
 		}
 		
+		// Here, the path ends in actual text.
+		// Thus, we set all reference entries to point directly to the 
+		// end node, to make things easier later on.
 		if (outc == 1 && !(cyc.empty())) {
 			#ifdef __DEBUG_OUTPUT__
 			std::cout << "In the cycle redirect loop A for entry #" << i << "." << std::endl;
@@ -323,6 +331,7 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 			}
 		}
 		
+		// If the path ends in a loop...
 		if (outc == -1) {
 			#ifdef USE_SET
 			throw std::runtime_error("Entry list contains a cycle.");
@@ -339,12 +348,11 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 			#endif
 		}
 		
-		// for the second reference		
+		// for the second reference
 		cyc.clear(); // = cycs.at(i);
 		
 		// This is basically the same thing, but 
 		// with the second reference.
-		//cyc.insert(len + i);
 		cyc_insert(cyc,len+i);
 		outc = 0;
 		off1 = ent.ref2;
@@ -359,7 +367,6 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 				outc = 1;
 				break;
 			}
-			//it2 = cyc.find(off1);
 			#ifdef USE_SET
 			it2 = cyc.find(off1);
 			#else
@@ -382,6 +389,7 @@ bool cycle_fix(std::vector<TextEntry> &entries) {
 
 		}
 		
+		// Again, here it ends in an actual text entry.
 		if (outc == 1 && !(cyc.empty())) {
 			#ifdef __DEBUG_OUTPUT__
 			std::cout << "In the cycle redirect loop B for entry #" << i << "." << std::endl;
@@ -445,6 +453,7 @@ std::string TextEntry::render_patch2() const {
 	return (ss.str());
 }
 
+// These are for when you output directly to an output stream.
 #ifdef USE_IO
 // Render the patch for the level entry
 std::ostream & render_patch1(std::ostream & os) const {
@@ -475,7 +484,7 @@ std::ostream & render_patch2(std::ostream & os) const {
 
 
 
-// why...
+// 
 void TextEntry::fix_refs(int len) {
 	
 	if (ent != RefE) return;
