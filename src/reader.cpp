@@ -139,6 +139,7 @@ TextEntry create_entry(std::string istr) {
 	pos = str.find("||");
 	// extra variable to deal with the
 	// case where you have "\||"
+	// TODO: Check if this still works with "\|||"
 	bool ext = true;
 	if (pos != 0 && pos != /*str.npos*/ nposx) {
 		if (str.at(pos-1) == '\\') {
@@ -160,8 +161,8 @@ TextEntry create_entry(std::string istr) {
 		std::cout << "Managing a Full Entry" << std::endl;
 		#endif
 		
-		// Split the string into the 
-		std::string str1 = str.substr(0,pos); // need to check for +-1 errors
+		// Split the string into the level name and the entry text.
+		std::string str1 = str.substr(0,pos); // try changing this if the entry text/name is cut off.
 		std::string str2 = str.substr(pos+2,str.npos);
 		
 		#ifdef __DEBUG_OUTPUT__
