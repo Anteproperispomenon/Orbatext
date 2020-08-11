@@ -54,7 +54,7 @@ Currently, there are only three variables:
 'episode'
 (or '--episode', '--ep', 'ep', or 'e')
 Specifies which episode these level names/entries are
-for. Currently, only 4 and 6 are supported.
+for. Currently, 4, 5, and 6 are all supported.
 
 'virtual'
 (or '--virtual', '--virt', 'virt', '-v', or 'v')
