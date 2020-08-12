@@ -2,7 +2,7 @@ CC  = gcc
 CXX = g++
 CXXFLAGS = -Wall
 
-# Warning: I am terrible at Makefiles.
+# Warning: I'm not great at Makefiles.
 # SRCS = src/main.cpp src/text-box.cpp src/text-entry.cpp src/optimise.cpp src/reader.cpp src/writer.cpp
 SRCC = main.cpp text-box.cpp text-entry.cpp optimise.cpp reader.cpp writer.cpp
 SRCS = $(addprefix src/,$(SRCC))
