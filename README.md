@@ -62,7 +62,7 @@ would produce a patch that uses the same text box for both
 intro and name, but uses different offsets for each. On the other
 hand, using two pipes, as in
 
-`Keen makes a run for\nthe ||Border Village`
+`Keen makes a run for\nthe Border Village||Border Village`
 
 would produce that uses different text boxes for the intro and
 name, unnecessasrily using space that could be used elsewhere.
