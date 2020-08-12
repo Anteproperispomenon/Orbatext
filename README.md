@@ -29,7 +29,14 @@ Thus, if the level introduction ends with the level name, as in
 `"Keen makes a run for\nthe Border Village"`
 
 ... you can use the same address for both the level introduction
-and the level name, but with different offsets into each.
+and the level name, but with different offsets into each. Another
+consequence of this is that, since all strings are null-terminated,
+you can fit multiple strings into the same text segment, and then
+just use the offset to pick the individual string. Finally, you 
+can simply point to the same text either for both the introduction
+and the level name, and even point to the same intro/name for 
+multiple levels. This program allows you to do all these things
+automatically and easily.
 
 
 See http://www.shikadi.net/keenwiki/Patch:Level_Entry_Window#Level_Name_Pointer_Lists
@@ -37,3 +44,38 @@ for a list of the pointer locations.
 
 See http://www.shikadi.net/keenwiki/Patch:Executable_Maps#Keen_5 for a full list of
 executable segments (Keen 5 and 6 only; read the address column).
+
+Usage
+=====
+
+This program is fairly simple; it takes a list of level introductions
+and names, and produces both a list of text patches and pointer patches.
+The full formatting details can be found in FORMAT.txt, but the
+basic format is a first line with the episode number and other
+switches, followed by a list of level introductions and names.
+
+Pipes are used to separate introductions from names. For example,
+
+`Keen makes a run for\nthe |Border Village`
+
+would produce a patch that uses the same text box for both
+intro and name, but uses different offsets for each. On the other
+hand, using two pipes, as in
+
+`Keen makes a run for\nthe ||Border Village`
+
+would produce that uses different text boxes for the intro and
+name, unnecessasrily using space that could be used elsewhere.
+This is usually only used when the level introduction _doesn't_
+end with the level name, as in
+
+`Keen bravely enters the\nBloog Control Centre,\nlooking for Molly||Bloog Control Centre`
+
+You can also just use no pipes at all to use the same text for both
+the level introduction and the level name, which is usually best used
+for levels that are supposed to be inacessible, e.g.
+
+`High Scores`
+
+You can also reference level intros and names that are used elsewhere,
+see FORMAT.txt for more information.
