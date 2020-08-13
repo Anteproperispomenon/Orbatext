@@ -90,7 +90,9 @@ To do this, use...
 
 %patch $5582 $1EE40xxxRL # For Keen 4
 
-%patch $557C $1FDE0xxxRL % For Keen 5
+%patch $557C $1FDE0xxxRL # For Keen 5
+
+%patch $498B $1ED50xxxRL # For Keen 6 (untested, unconfirmed)
 
 ----------------------------------------
 -- 1.2 Text Stuff                     --
