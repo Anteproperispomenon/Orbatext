@@ -1,4 +1,4 @@
-Input file format for <program name>:
+Input file format for Orbatext:
 
 ===========================================================
 == (0) Notes                                             ==
@@ -63,7 +63,7 @@ are "virtual"; that is, these levels will have
 their text patched into the executible segments,
 but they will not have a name/entry pointer
 created. This is only useful when combined with
-using "reference entries", see <section> for more
+using "reference entries", see section 1.4.3 for more
 info.
 
 'starwars'
@@ -81,6 +81,16 @@ story itself one of your entries (the best
 option would be to use your last non-virtual
 entry) and then use the offset of the last
 level/entry patch for the star wars story.
+If you do use the last non-virtual entry,
+you'll have to manually remove the text
+pointer from the level entry/name lists,
+and change the star wars pointer directly.
+
+To do this, use...
+
+%patch $5582 $1EE40xxxRL # For Keen 4
+
+%patch $557C $1FDE0xxxRL % For Keen 5
 
 ----------------------------------------
 -- 1.2 Text Stuff                     --
