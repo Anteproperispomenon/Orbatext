@@ -53,6 +53,14 @@ and names, and produces both a list of text patches and pointer patches.
 The full formatting details can be found in FORMAT.txt, but the
 basic format is a first line with the episode number and other
 switches, followed by a list of level introductions and names.
+In most cases, you can just use the following intro line:
+
+`--episode x`
+
+where `x` is the episode number.
+
+Level Entries
+-------------
 
 Pipes are used to separate introductions from names. For example,
 
@@ -66,7 +74,7 @@ hand, using two pipes, as in
 
 would produce that uses different text boxes for the intro and
 name, unnecessasrily using space that could be used elsewhere.
-This is usually only used when the level introduction _doesn't_
+This is usually only used when the level introduction *doesn't*
 end with the level name, as in
 
 `Keen bravely enters the\nBloog Control Centre,\nlooking for Molly||Bloog Control Centre`
@@ -77,5 +85,14 @@ for levels that are supposed to be inacessible, e.g.
 
 `High Scores`
 
-You can also reference level intros and names that are used elsewhere,
-see FORMAT.txt for more information.
+You can also reference level intros and names that are used elsewhere;
+this is useful for when multiple levels that have a similar theme and
+thus can use the same introduction. To use a level name/intro defined
+elsewhere, start the entry with a star, followed by a reference to
+the desired entry and name.
+
+`* e12 n14`
+
+... means "use the level introduction from level 12, and the level name
+from level 14". You can even use a different level's name as the intro
+text. For more details, see FORMAT.txt.
