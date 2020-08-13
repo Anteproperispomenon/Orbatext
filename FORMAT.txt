@@ -88,11 +88,19 @@ and change the star wars pointer directly.
 
 To do this, use...
 
-%patch $5582 $1EE40xxxRL # For Keen 4
+#For Keen 4:
+%patch $5582 $1EE4RW #Segment Location
+%patch $5587 $0xxxW  #Offset
 
-%patch $557C $1FDE0xxxRL # For Keen 5
+#For Keen 5:
+%patch $557C $1FDERW #Segment Location
+%patch $5581 $0xxxW  #Offset
 
-%patch $498B $1ED50xxxRL # For Keen 6 (untested, unconfirmed)
+#For Keen 6:
+%patch $538b $1ED5RW #Segment Location
+%patch $5390 $0xxxW  #Offset
+
+[Taken from http://www.shikadi.net/keenwiki/Patch:Story_Screen_(Galaxy)]
 
 ----------------------------------------
 -- 1.2 Text Stuff                     --
