@@ -139,10 +139,11 @@ TextEntry create_entry(std::string istr) {
 	pos = str.find("||");
 	// extra variable to deal with the
 	// case where you have "\||"
-	// TODO: Check if this still works with "\|||"
-	// Needs to be fixed: "\|||" seems to work,
-	// but "\||" doesn't.
 	bool ext = true;
+	// TODO: Deal with case where you have more than one
+	// backslash preceding the double pipe. e.g.
+	// '\\||' wouldn't count as escaping the first pipe,
+	// but '\\\||' would.
 	if (pos != 0 && pos != /*str.npos*/ nposx) {
 		// It should be that str.at(pos) == '|' and str.at(pos+1) == '|'.
 		if (str.at(pos-1) == '\\') {
