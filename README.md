@@ -72,7 +72,7 @@ hand, using two pipes, as in
 
 `Keen makes a run for\nthe Border Village||Border Village`
 
-would produce that uses different text boxes for the intro and
+would produce output that uses different text boxes for the intro and
 name, unnecessasrily using space that could be used elsewhere.
 This is usually only used when the level introduction *doesn't*
 end with the level name, as in
@@ -89,10 +89,10 @@ You can also reference level intros and names that are used elsewhere;
 this is useful for when multiple levels that have a similar theme and
 thus can use the same introduction. To use a level name/intro defined
 elsewhere, start the entry with a star, followed by a reference to
-the desired entry and name.
+the desired entry and name. For example,
 
 `* e12 n14`
 
 ... means "use the level introduction from level 12, and the level name
 from level 14". You can even use a different level's name as the intro
-text. For more details, see FORMAT.txt.
+text, and vice-versa. For more details, see FORMAT.txt.
