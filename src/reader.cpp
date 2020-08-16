@@ -77,8 +77,8 @@ TextEntry create_entry(std::string istr) {
 		std::istringstream iss(str);
 		iss.get(); // to get the '*' out of the stream
 		skip_whitespace(iss);
-		int x;
-		int y;
+		int x; // seems like it should be char, but iss.peek() returns an int. 
+		int y; // same
 		int en; // entrance number
 		int nn; // name     number
 		
@@ -263,7 +263,7 @@ TextEntry create_entry(std::string istr) {
 
 
 
-// I don't know...
+// Skip horizontal whitespace
 // (but not newlines)
 void skip_whitespace(std::istream & is) {
 	int x = is.peek();
@@ -392,33 +392,33 @@ InputInfo make_info(std::istream &iss) {
 			if (!(get_maybe(iss,'='))) skip_whitespace(iss);
 			iss >> ep;
 		} else if (  (str1.compare("--virtual") == 0)
-			      || (str1.compare("--virt")    == 0)
-				  || (str1.compare("virt")      == 0)
-				  || (str1.compare("virtual")   == 0)
-				  || (str1.compare("-v")        == 0)
-				  || (str1.compare("v")         == 0)
-				  ) {
-			if (!(get_maybe(iss,'='))) skip_whitespace(iss);
-			iss >> vr;
+			  || (str1.compare("--virt")    == 0)
+			  || (str1.compare("virt")      == 0)
+			  || (str1.compare("virtual")   == 0)
+			  || (str1.compare("-v")        == 0)
+			  || (str1.compare("v")         == 0)
+			  ) {
+				if (!(get_maybe(iss,'='))) skip_whitespace(iss);
+				iss >> vr;
 		} else if (  (str1.compare("--starwars") == 0)
-			      || (str1.compare("--sw")       == 0)
-				  || (str1.compare("starwars")   == 0)
-				  || (str1.compare("sw")         == 0)
-				  ) {
-			sw = true;
+			  || (str1.compare("--sw")       == 0)
+			  || (str1.compare("starwars")   == 0)
+			  || (str1.compare("sw")         == 0)
+			  ) {
+				sw = true;
 		} else if (  (str1.compare("--starwarsout") == 0)
-			      || (str1.compare("--swo")         == 0)
-				  || (str1.compare("swo")           == 0)
-				  || (str1.compare("starwarsout")   == 0)
-				  ) {
-			if (!(get_maybe(iss,'='))) skip_whitespace(iss);
-			sw = true;
-			swo = get_string_quote(iss);
+			  || (str1.compare("--swo")         == 0)
+			  || (str1.compare("swo")           == 0)
+			  || (str1.compare("starwarsout")   == 0)
+			  ) {
+				if (!(get_maybe(iss,'='))) skip_whitespace(iss);
+				sw = true;
+				swo = get_string_quote(iss);
 		} else if (  (str1.compare("--full-file") == 0)
-			      || (str1.compare("--full")      == 0)
-				  || (str1.compare("full-file")   == 0)
-				  || (str1.compare("full")        == 0)
-				  ) {
+			  || (str1.compare("--full")      == 0)
+			  || (str1.compare("full-file")   == 0)
+			  || (str1.compare("full")        == 0)
+			  ) {
 			full = true;
 		}
 		
@@ -472,9 +472,9 @@ void unescape_chars(std::string & str) {
 				std::cout << "previous char was '" << *(it-1) << "', I guess..." << std::endl;
 				#endif
 				--it; // hmm...
-				it = str.erase(it);
-				it = str.erase(it);
-				it = str.insert(it,'#');
+				it = str.erase(it);      // erase backslash
+				it = str.erase(it);      // erase char
+				it = str.insert(it,'#'); // insert proper char
 				flag = 0;
 			}
 			else if (x == 'q' || x == '\"') {
@@ -534,6 +534,12 @@ void unescape_chars2(std::string & str) {
 				//it = str.insert(it,'|');
 				flag = 0;
 			}
+			else if (x == 'p') { // Since it works differently from the above.
+				--it;
+				it = str.erase(it);
+				it = str.erase(it);
+				it = str.insert(it,'|');
+				flag = 0;
 			else if (x == 't') {
 				--it; // hmm...
 				it = str.erase(it);
