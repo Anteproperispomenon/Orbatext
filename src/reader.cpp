@@ -543,6 +543,7 @@ void unescape_chars2(std::string & str) {
 				it = str.erase(it);
 				it = str.insert(it,'|');
 				flag = 0;
+			}
 			else if (x == 't') {
 				--it; // hmm...
 				it = str.erase(it);
