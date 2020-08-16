@@ -66,6 +66,13 @@ created. This is only useful when combined with
 using "reference entries", see section 1.4.3 for more
 info.
 
+'full'
+(or '--full', '--full-file', or 'full-file)
+This adds some extra patches that are useful when
+using a different number of levels. At the moment,
+it only allows warping to the correct number of
+levels.
+
 'starwars'
 (or '--starwars', '--sw', or 'sw')
 This uses the text space used by the
@@ -101,6 +108,13 @@ To do this, use...
 %patch $5390 $0xxxW  #Offset
 
 [Taken from http://www.shikadi.net/keenwiki/Patch:Story_Screen_(Galaxy)]
+
+'starwarsout'
+(or '--starwarsout', '--swo', or 'swo')
+Output the star wars text to a different
+file, whose name follows this switch
+(e.g. '--swo starwars.bin'). This feature
+is experimental at the moment.
 
 ----------------------------------------
 -- 1.2 Text Stuff                     --
