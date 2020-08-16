@@ -1,0 +1,34 @@
+--episode=6 --virtual=27
+Keen attacks\n|Fribbulus Xax                                          # 0
+Keen hops across\n|Bloogwaters\nCrossing                              # 1
+Keen fights his way\nthrough |Guard Post One                          # 2
+Keen crosses into the\n|First Dome of Darkness                        # 3
+Keen dares to enter the\n|Second Dome of Darkness                     # 4
+Keen foolishly enters\nthe |Bloogdome                                 # 5
+Keen makes his way\ninto |Bloogton\nManufacturing                     # 6
+Keen ascends\n|Bloogton Tower                                         # 7
+Keen hungrily enters\n|Bloogfoods, Inc.                               # 8
+Keen smashes through\n|Guard Post Two                                 # 9
+Keen seeks thrills\nin |Bloogville                                    # 10
+Keen rockets into the\n|Bloog Aeronautics and\nSpace Administration   # 11
+Keen boldly assaults\n|Guard Post Three                               # 12
+Keen whoops it up in\nthe |Bloogbase\nRecreational District           # 13
+Keen purposefully struts\ninto the |Bloogbase\nManagement District    # 14
+Keen bravely enters the\nBloog Control Center,\nlooking for Molly||Bloog Control Centre # 15
+Keen warily enters\nBlooglab Space\nStation||Blooglab                 # 16
+Keen returns to the\n|Bean-with-Bacon\nMegarocket                     # 17
+# test case
+Keen is in the High\nScore screen. Call Id!||High Scores              # 18
+Cafe Bloag                                                            # 19
+The Sewers                                                            # 20
+Somewhere Else                                                        # 21
+Level \h22                                                            # 22
+\*** Unknown ***                                                      # 23
+* e27 n28                              # 24
+* e27 n29                              # 25
+* e27 n30                              # 26
+# Start of virtual stuff               # --
+Now Entering\na Dome of Darkness       # 27
+Dome of Darkness \h1                   # 28
+Dome of Darkness \h2                   # 29
+Dome of Darkness \h3                   # 30
