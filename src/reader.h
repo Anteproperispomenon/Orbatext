@@ -56,5 +56,7 @@ InputInfo make_info(std::istream &iss);
 void unescape_chars (std::string & str);
 void unescape_chars2(std::string & str);
 
+bool count_slashes(std::string & str, int pos);
+
 #endif
 

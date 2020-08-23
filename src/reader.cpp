@@ -2,6 +2,8 @@
 
 // #define __DEBUG_UNESCAPE__
 
+// #define __DEBUG_READER__
+
 #ifdef  __DEBUG_READER__
 #define __DEBUG_OUTPUT__
 #endif
@@ -146,7 +148,7 @@ TextEntry create_entry(std::string istr) {
 	// but '\\\||' would.
 	if (pos != 0 && pos != /*str.npos*/ nposx) {
 		// It should be that str.at(pos) == '|' and str.at(pos+1) == '|'.
-		if (str.at(pos-1) == '\\') {
+		if (str.at(pos-1) == '\\' && count_slashes(str, pos)) {
 			if ((pos+2 != /*str.npos*/ nposx) && str.at(pos+2) == '|' ) {
 				pos++;
 			} else {
@@ -370,10 +372,11 @@ bool get_maybe(std::istream & is, char c) {
 InputInfo make_info(std::istream &iss) {
 	// skip_whitespace(iss);
 	std::string str1; // = get_string(iss);
-	//
 	
-	// std::cout << "In the \"make_info\" function." << std::endl;
-	// std::cout << "str1: " << str1 << std::endl;
+	#ifdef __DEBUG_OUTPUT__
+	std::cout << "In the \"make_info\" function." << std::endl;
+	std::cout << "str1: " << str1 << std::endl;
+	#endif
 	
 	int  ep   = -1;
 	int  vr   = -1;
@@ -383,6 +386,9 @@ InputInfo make_info(std::istream &iss) {
 	
 	int x = iss.peek();
 	
+	// Note: the following lines conditions may
+	// become out of alignment since different
+	// editors treat tabs/etc... differently.
 	while (x != '\n' && x != EOF && iss) {
 		skip_whitespace(iss);
 		str1 = get_string2(iss);
@@ -520,8 +526,11 @@ void unescape_chars2(std::string & str) {
 			flag = 1;
 		}
 		else if (flag == 1) {
-			if (x == '\\') { 
+			if (x == '\\' || x == 'b') { 
+				--it; // hmm...
 				it = str.erase(it);
+				// it = str.erase(it);       
+				// it = str.insert(it,'\\'); 
 				flag = 0;
 			}
 			else if (x == 'n') {
@@ -571,6 +580,28 @@ void unescape_chars2(std::string & str) {
 		
 }
 
-
-
+// Function to count the number of backslashes in a row.
+// This is to determine whether the character at pos is
+// actually escaped or not.
+bool count_slashes(std::string & str, int pos) {
+	// Note: I'm not as familiar with reverse iterators.
+	// The iterator should be pointing
+	// at the character AFTER the backslashes.
+	std::string::reverse_iterator it = str.rend() - (pos + 1); // 
+	bool is_esc = false; // if True, the character at pos is escaped.
+	#ifdef __DEBUG_UNESCAPE__
+	std::cout << "In count_slashes, pointing at " << *it << std::endl;
+	#endif
+	++it; // to set it at the first backslash.
+	for ( ; it != str.rend() ; ++it) {
+		if (*it == '\\') {
+			#ifdef __DEBUG_UNESCAPE__
+			std::cout << "In count_slashes, pointing at " << *it << std::endl;
+			#endif
+			is_esc = !is_esc;
+		}
+		else break;
+	}
+	return is_esc;
+}
 
