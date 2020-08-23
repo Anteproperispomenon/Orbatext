@@ -142,7 +142,7 @@ TextEntry create_entry(std::string istr) {
 	// extra variable to deal with the
 	// case where you have "\||"
 	bool ext = true;
-	// TODO: Deal with case where you have more than one
+	// DONE: Deal with case where you have more than one
 	// backslash preceding the double pipe. e.g.
 	// '\\||' wouldn't count as escaping the first pipe,
 	// but '\\\||' would.
