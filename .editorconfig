@@ -1,0 +1,14 @@
+# Basic Editor Config File
+
+# Root
+root = true
+
+# For C++ files
+[*.{cpp,h}]
+charset = utf-8
+indent_style = tab
+indent_size  = 4
+
+# For Makefile(s)
+[Makefile]
+indent_style = tab

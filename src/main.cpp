@@ -96,13 +96,6 @@ int main(int argc, char *argv[]) {
 		ofn = ifn + ".pat";
 	}
 	
-	
-	
-	// asdfzxcv
-	// int ep = 6; // for now...
-	
-	//ifstream ifs("ep_6_entry_b.txt");
-	
 	ifstream ifs(ifn.c_str());
 	
 	if (ifs.fail()) {

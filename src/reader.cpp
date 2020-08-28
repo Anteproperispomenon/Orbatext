@@ -402,34 +402,34 @@ InputInfo make_info(std::istream &iss) {
 			if (!(get_maybe(iss,'='))) skip_whitespace(iss);
 			iss >> ep;
 		} else if (  (str1.compare("--virtual") == 0)
-			  || (str1.compare("--virt")    == 0)
-			  || (str1.compare("virt")      == 0)
-			  || (str1.compare("virtual")   == 0)
-			  || (str1.compare("-v")        == 0)
-			  || (str1.compare("v")         == 0)
-			  ) {
-				if (!(get_maybe(iss,'='))) skip_whitespace(iss);
-				iss >> vr;
+				  || (str1.compare("--virt")    == 0)
+				  || (str1.compare("virt")      == 0)
+				  || (str1.compare("virtual")   == 0)
+				  || (str1.compare("-v")        == 0)
+				  || (str1.compare("v")         == 0)
+				  ) {
+					if (!(get_maybe(iss,'='))) skip_whitespace(iss);
+					iss >> vr;
 		} else if (  (str1.compare("--starwars") == 0)
-			  || (str1.compare("--sw")       == 0)
-			  || (str1.compare("starwars")   == 0)
-			  || (str1.compare("sw")         == 0)
-			  ) {
-				sw = true;
+				  || (str1.compare("--sw")       == 0)
+				  || (str1.compare("starwars")   == 0)
+				  || (str1.compare("sw")         == 0)
+				  ) {
+					sw = true;
 		} else if (  (str1.compare("--starwarsout") == 0)
-			  || (str1.compare("--swo")         == 0)
-			  || (str1.compare("swo")           == 0)
-			  || (str1.compare("starwarsout")   == 0)
-			  ) {
-				if (!(get_maybe(iss,'='))) skip_whitespace(iss);
-				sw = true;
-				swo = get_string_quote(iss);
+				  || (str1.compare("--swo")         == 0)
+				  || (str1.compare("swo")           == 0)
+				  || (str1.compare("starwarsout")   == 0)
+				  ) {
+					if (!(get_maybe(iss,'='))) skip_whitespace(iss);
+					sw = true;
+					swo = get_string_quote(iss);
 		} else if (  (str1.compare("--full-file") == 0)
-			  || (str1.compare("--full")      == 0)
-			  || (str1.compare("full-file")   == 0)
-			  || (str1.compare("full")        == 0)
-			  ) {
-			full = true;
+				  || (str1.compare("--full")      == 0)
+				  || (str1.compare("full-file")   == 0)
+				  || (str1.compare("full")        == 0)
+				  ) {
+					full = true;
 		}
 		
 		skip_whitespace(iss);
