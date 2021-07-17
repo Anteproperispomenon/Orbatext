@@ -96,3 +96,15 @@ the desired entry and name. For example,
 ... means "use the level introduction from level 12, and the level name
 from level 14". You can even use a different level's name as the intro
 text, and vice-versa. For more details, see FORMAT.txt.
+
+Links
+=====
+
+PCKF topic:
+https://pckf.com/viewtopic.php?f=4&t=11670
+
+KeenWiki: General Text Patching info:
+https://keenwiki.shikadi.net/wiki/Patch:Text_patches
+
+KeenWiki: Level Entry Window Patches:
+https://keenwiki.shikadi.net/wiki/Patch:Level_Entry_Window
